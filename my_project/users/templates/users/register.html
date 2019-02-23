@@ -1,0 +1,24 @@
+{%	extends "blog/base.html"	%}
+{%	load crispy_forms_tags	%}
+	{%	block content	%}
+		<div class="content-section">
+			<form method="POST">
+				{%	csrf_token	%}	<!-- csrf token generated -->
+				<fieldset class="form-group">	<!--	Bootstrap class -->
+					<legend class="border-bottom mb-4">
+						Join Today Biotch
+					</legend>
+					{{ form|crispy }}		
+					<!-- Crispy filter does the styling for us -->
+				</fieldset>
+				<div class="form-group">
+					<button class="btn btn-outline-info" type="submit">Sign Up</button>
+				</div>
+			</form> 
+			<div class="border-top pt-3">
+				<small class="text-muted">
+				Already have an account? <a class="ml-2" href="{%	url 'login'	%}">Log in</a>
+				</small>
+			</div>
+		</div>
+	{%	endblock content	%}

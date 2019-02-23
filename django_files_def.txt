@@ -1,0 +1,265 @@
+---------------------
+Process to add an app 
+---------------------
+>Make an app
+
+>add a funtion for httpresponse
+
+>add the http page
+
+>make a urls.py in the app folder
+
+>import app's views.py
+
+>import httpresponse library
+
+>make a funtion to return the http response page
+
+>make a url pattern in blog's url.py
+
+>import include from django.url in project's url.py
+
+>'include' app reference in project's url.py urlpatterns path
+
+>add new app to list of installed apps
+	>add app config to project's settings.py module 
+	>add to INSTALLED_APPS list <appname>.apps.<Appname>Config (copy from app dir->apps.py)
+#add after every app installed
+
+>runserver
+
+___________________________________________________________________________
+---------
+Templates
+---------
+
+>create a templates dir in the app dir
+
+#django looks for  a templates dir in each installed app
+
+>create a dir with app name in templates dir so we know what belongs to what (django convention)
+
+>return from views.py sublink fuction: render(response, '<template-subdir/html-page-name', 
+																				data-to-be-passed-to-the-template-in-dictionary-format)
+--------------------
+TEMPLATE INHERITANCE
+--------------------
+
+>new template in templates app subdir (name=base.html) for repeated code in templates
+
+>copy repeated code into base.html
+
+>create a block (section that child templates can override)	syntax:	{%	block <blockname>	%}
+
+>remove everything that isnt unique to child in child template incl tags
+
+>add to top of child template {%	extends "app/base.html"	%}
+
+>add the block to child template where you want to override with that <blockname>
+
+#### note : added bootstrap classes and templates. Look into those
+#
+#
+#### note: static CSS and JS files places in static dir in app folder
+			load static file to templ by adding {%	load static	%}
+			include static by <link rel="stylesheet" type="text/css" href="{%	static 'app/css_file_name.css'	%}">
+
+__________________________________________________________________________________________________________________________
+----------
+ADMIN PAGE
+----------
+
+To Add a superuser
+
+> make database migrations
+
+>run database migrations
+
+>create superuser
+
+____________________________________________________________________________________________________________________________
+
+--------
+DATABASE
+--------
+
+> make changes to models.py for different fields
+
+>register DB model on admin page by regustering it at app_name/admin.py 
+
+______________________________________________________________________________________________________________________________
+
+------------
+User Managmt
+------------
+
+>Create a new app for User management
+
+>add app to list of installed apps
+
+>add registration form from python classes into urls.py
+
+>create a register page, that inherits template from other app or wtv
+
+>added a url pattern to project urls.py
+
+>in app views.py, add conditionals for form data
+
+>modified base.html template to recieve messages. (review that bit)
+
+>form.save() saves user data
+
+>to add a new field, create forms.py in app dir
+
+>import UserCreationForm (or wtv form youre using)
+
+>import other stuff (db models and all)
+
+> make own form, specify order and stuff in a list
+
+>import created forms.py in views.py
+
+>install crispy forms for third party django framework that makes working on forms v easy
+
+>tell django, installed 3rd party app used, by going to project settings.py
+
+>to tell crispy forms about which CSS to use, add CRISPY_TEMPLATE_PACK = 'whatever u using we using bootstrap4'
+
+>load crispy forms by adding {%	load crispy_forms_tags	%}
+
+________________________________________________________________________________________________________________________
+
+----------------
+LOG IN - LOG OUT
+----------------
+
+>Using django default login views 
+
+>import log in log out views in project's url.py
+
+>import djago contrib auth -> views and add url path for log in log out
+
+>add template for login/out views
+
+>change project setting for login/out redirection page
+
+>add login/out to base template
+
+>add profile template and add url route to project urls.py
+
+>To restrict pages if ur logged in or not
+	>Use login required decorated provided by django
+	>import from django.contrib.auth.decorators import login_required
+	>add login_required over page function you want restricted
+	>add login route to settings.py (project) so django knows where to redirect user if user visits unauth page
+
+___________________________________________________________________________________________________________________
+
+------------------------
+USER PROFILE AND PICTURE
+------------------------
+
+>Extend user model and create profile model with 1 to 1 relationship
+
+>Go to models.py for the app
+
+>import user model
+
+>make profile class w relevant fuctions and fields
+
+>install pillow to use image field, lib to work w images w python
+
+>register model w the admin file of the app to view on admin page
+
+>to add that every account gets a profile when made
+
+>also, to view profile, 
+
+			C:\Users\rahma\Desktop\learning-django\my_project>python manage.py shell
+			Python 3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 17:26:49) [MSC v.1900 32 bit (Intel)] on win32
+			Type "help", "copyright", "credits" or "license" for more information.
+			(InteractiveConsole)
+			>>> from django.contrib.auth.models import User
+			>>> user = user.objects.filter(username = antagonist)
+			Traceback (most recent call last):
+			  File "<console>", line 1, in <module>
+			NameError: name 'user' is not defined
+			>>> user = User.objects.filter(username = antagonist)
+			Traceback (most recent call last):
+			  File "<console>", line 1, in <module>
+			NameError: name 'antagonist' is not defined
+			>>> user = User.objects.filter(username = 'antagonist').first()
+			>>> user
+			<User: antagonist>
+			>>> user.profile
+			<Profile: antagonist Profile>
+			>>> user.profile.image
+			<ImageFieldFile: profile_pics/36231833334_b3581aa9af_o.png>
+			>>> user.profile.image.width
+			1920
+			>>> user.profile.image.size
+			2647893
+			>>> user.profile.image.height
+			1352
+			>>> user.profile.image.url
+			'profile_pics/36231833334_b3581aa9af_o.png'
+			>>> user2 = User.objects.filter(username='TestUser').first()
+			>>> user2
+			>>> user2 = User.objects.filter(username='testuser').first()
+			>>> user2
+			<User: testuser>
+			>>> user.profile.image
+			<ImageFieldFile: profile_pics/36231833334_b3581aa9af_o.png>
+			>>> user2.profile.image
+			<ImageFieldFile: default.jpeg>
+			>>> user2.profile.image.url
+			'default.jpeg'
+			>>> exit()
+
+>change settings to change where images are saved
+	>change settings in settings.py for project and add MEDIA_ROUTE and MEDIA_URL
+	>wont be applied to created profiles, have to create new ones
+
+>To show these, make changes to app profile template, add image link
+
+>Add url route for media view. Read on django doc online 
+
+>Add default prof image into media/default.jpeg
+
+>Make a profile for every user created
+	>add django signal. Add a file signals.py to app folder
+	>save profile function to be created in there as well
+	>import signals into ready func of user apps.py file
+
+____________________________________________________________________________________________________________________
+
+-------------------
+UPDATE USER PROFILE
+-------------------
+
+>Create a new form
+	>Model forms allow us to work with a specific db model (ie model to be updated)
+	>Add profile form
+
+>Add form to views
+
+>Add to profile template
+
+>Add current profile info to the update form and:
+
+	>Handle POST request by form to make changes, change into views.py file for app
+
+>Resize image when uploaded, using pillow(pkg)
+	>override save method of profile model (models.py for app)
+
+>Display author image at homepage
+	>changes to blog's home.html
+
+__________________________________________________________________________________________________________________________
+
+-------------
+
+
+
+
+

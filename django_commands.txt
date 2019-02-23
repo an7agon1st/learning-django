@@ -1,0 +1,29 @@
+Install Django:
+>pip install django
+
+Show Django subcommands
+>django-admin
+
+Create new Project
+>django-admin startproject <project-name>
+
+Run Django server
+>python manage.py runserver
+
+Create new app
+>python manage.py startapp <name_of_app> 
+
+Make Database Migration (gives possible changes)
+>python manage.py makemigrations
+
+Run Migrations
+>python manage.py migrate
+
+Create admin user
+>python manage.py createsuperuser
+
+To see the sql code to be generated after makemigrations and before migrate
+>python manage.py sqlmigrate <app_name> ##blog\migrations\#<the_number_here_ignore_hashed>#_initial.py##
+
+Run Django Python Shell
+>python manage.py shell
